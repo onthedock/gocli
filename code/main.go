@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"strings"
 )
 
 // Define a new type of variable
@@ -13,7 +14,7 @@ const (
 	ColorBlack  Color = "\u001b[30m"
 	ColorRed    Color = "\u001b[31m"
 	ColorGreen  Color = "\u001b[32m"
-	ColorYellow Color = "\u001b[33m"
+	ColorOrange Color = "\u001b[33m"
 	ColorBlue   Color = "\u001b[34m"
 	ColorReset  Color = "\u001b[0m"
 )
@@ -26,12 +27,24 @@ func colorize(color Color, message string) {
 }
 
 func main() {
-	useColor := flag.Bool("color", false, "Display colorized output")
+	msg := "Texto por defecto a mostrar"
+	c := ColorGreen
+	useColor := flag.String("color", "ColorGreen", "Display colorized output")
 	flag.Parse()
 
-	if *useColor {
-		colorize(ColorGreen, "Hello world default message")
-		return
+	switch strings.ToLower(string(*useColor)) {
+	case "black":
+		c = ColorBlack
+	case "orange":
+		c = ColorOrange
+	case "green":
+		c = ColorGreen
+	case "blue":
+		c = ColorBlue
+	case "red":
+		c = ColorRed
+	default:
+		c = ColorReset
 	}
-	fmt.Println("Hello with no color")
+	colorize(c, msg)
 }

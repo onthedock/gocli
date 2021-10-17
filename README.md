@@ -81,3 +81,34 @@ func main() {
 	fmt.Println("Hello with no color")
 }
 ```
+
+Vamos a modificar el ejemplo para que podamos especificar el color en el que se muestra el texto.
+
+Empezamos modificando el tipo del *flag* para que sea de tipo *String*:
+
+```go
+	useColor := flag.String("color", "ColorGreen", "Display colorized output")
+```
+
+A continuación, usamos un `switch` para seleccionar el color adecuado en función del valor del *flag* `-color`. Para simplificar la evaluación de la condición en el comando `switch`, primero convertimos el valor del *flag* a minúsculas (usando `strings.ToLower(string)`):
+
+```go
+	switch strings.ToLower(string(*useColor)) {
+	case "black":
+		c = ColorBlack
+	case "orange":
+		c = ColorOrange
+	case "green":
+		c = ColorGreen
+	case "blue":
+		c = ColorBlue
+	case "red":
+		c = ColorRed
+	default:
+		c = ColorReset
+	}
+```
+
+Mediante el caso por defecto, hacemos frente a otros colores que no tengamos definidos, usando en este caso el valor definido por defecto.
+
+Finalmente, llamamos la función `colorize(c, msg)`.
